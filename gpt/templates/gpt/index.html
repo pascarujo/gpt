@@ -1,0 +1,18 @@
+
+{% extends 'gpt/base.html' %}
+{% block title %}Lista de Instalações{% endblock %}
+{% block content %}
+
+{% if latest_instalacao_list %}
+    <ul>
+    {% for instalacao in latest_instalacao_list %}
+        <li><a href="{% url 'gpt:instalacao_detail' instalacao.id %}">{{ instalacao.nome }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Não há instalações cadastradas.</p>
+{% endif %}
+
+{% include "gpt/pagination.html" with page=page_obj %}
+
+{% endblock %}

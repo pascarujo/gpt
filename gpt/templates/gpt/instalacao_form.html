@@ -1,0 +1,27 @@
+{% extends 'gpt/base.html' %}
+{% block title %}
+{% if tipo == "create" %} 
+    Nova instalação
+    {% elif tipo == "update" %}
+    Atualizando instalação
+
+{% endif %}
+{% endblock %}
+{% block content %}
+<h1>
+    {% if tipo == 'create' %} 
+    Nova instalação
+    {% elif tipo == 'update' %}
+    Atualizando instalação
+    {% endif %}
+</h1>
+<br>
+<form method="post">{% csrf_token %}
+    <table>
+        {{ form.as_table }}
+    </table>
+    
+    <input type="submit" value="Save">
+</form>
+{% endblock %}
+

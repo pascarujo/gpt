@@ -1,0 +1,48 @@
+{% extends 'gpt/base.html' %}
+{% block title %}Lista de Documentos{% endblock %}
+{% block content %}
+<h1>Lista de Documentos</h1>
+
+<div class="container">         
+    <table class="table table-clear table-striped">
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Origem</th>
+          <th>Tipo</th>
+          <th>Título</th>
+          <th>Data</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+
+
+{% if documentos_list %}
+    
+    {% for documento in documentos_list %}
+    <tr>
+        <td><a href="{% url 'gpt:documento_detail' documento.id %}">{{ documento.codigo }}</a></td>
+        <td>{{ documento.origem }}</td>
+        <td>{{ documento.get_tipo }}</td>
+        <td>{{ documento.titulo }}</td>
+        <td>{{ documento.data_doc }}</td>
+        <td><a href="{% url 'gpt:documentos_update' documento.id %}">Editar</a></td>
+    </tr>
+    {% endfor %}
+    
+{% else %}
+    <p>Não há documentos cadastradas.</p>
+{% endif %}
+      </tbody>
+    </table>
+</div>
+
+
+{% include "gpt/pagination.html" with page=page_obj %}
+
+{% endblock %}
+
+{% block submenu %}
+<li><a href="{% url 'gpt:documentos_create' %}">Adicionar documento</a></li>
+{% endblock %}

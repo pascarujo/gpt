@@ -1,0 +1,31 @@
+{% extends 'gpt/base.html' %}
+{% block title %}{{ documento.titulo }}{% endblock %}
+{% block content %}
+<h1>{{ documento.origem }} / {{ documento.codigo }}: {{ documento.titulo }}</h1>
+<p><strong>Origem:</strong> {{ documento.origem }}</p>
+<p><strong>Código:</strong> {{ documento.codigo }}</p>
+<p><strong>Título:</strong> {{ documento.titulo }}</p>
+<p><strong>Tipo:</strong> {{ documento.get_tipo }}</p>
+<p><strong>Data do documento:</strong> {{ documento.data_doc }}</p>
+<p><strong>Atualizado em:</strong> {{ documento.atualizado_em }}</p>
+<p><strong>Criado em:</strong> {{ documento.criado_em }}</p>
+<p><strong>Arquivo:</strong> {% if documento.arquivo %}<a href="{{ documento.arquivo.url }}" download>{{ documento.get_filename }}</a>{% else %}Não há arquivo anexado.{% endif %}</p>
+<p><strong>Documentos relacionados:</strong></p>
+<ul>
+    {% for referencia in documento.referencias.all %}
+        <li><a href="{% url 'gpt:documento_detail' referencia.id %}">{{ referencia.titulo }}</a></li>
+    
+    {% empty %}
+    Não há documentos de referência.
+
+    {% endfor %}
+</ul>
+<p><strong>Instalações relacionadas:</strong></p>
+<ul>
+{% for instalacao in documento.instalacoes.all %}
+    <li><a href="{% url 'gpt:instalacao_detail' instalacao.id %}">{{ instalacao.nome }}</a></li>
+{% empty %} 
+Não há instalações relacionadas
+{% endfor %}
+</ul>
+{% endblock %}

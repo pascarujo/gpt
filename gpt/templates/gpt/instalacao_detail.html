@@ -1,0 +1,17 @@
+{% extends 'gpt/base.html' %}
+{% block title %}{{ instalacao.nome }}{% endblock %}
+{% block content %}
+<h1>{{ instalacao.nome }}</h1>
+<p>Regional: {{ instalacao.get_regional }}</p>
+<p>Documentos:</p>
+<ul>
+{% for documento in instalacao.documentos.all %}
+    <li><a href="{% url 'gpt:documento_detail' documento.id %}">{{ documento.titulo }}</a></li>
+
+{% empty %}
+<p>Não há documentos cadastrados</p>
+{% endfor %}
+
+
+</ul>
+{% endblock %}

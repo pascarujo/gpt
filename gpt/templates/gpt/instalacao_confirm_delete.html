@@ -1,0 +1,16 @@
+{% extends 'gpt/base.html' %}
+{% block title %}Excluir instalação
+{% endblock %}
+{% block content %}
+<h1>
+    Excluir instalação
+</h1>
+<br>
+<form method="post">{% csrf_token %}
+    <table>
+        <p>Tem certeza que deseja excluir {{ object.nome }}?</p>
+    </table>
+    
+    <input type="submit" value="Confirmar">
+</form>
+{% endblock %}

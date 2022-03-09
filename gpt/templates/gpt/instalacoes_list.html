@@ -1,0 +1,43 @@
+
+{% extends 'gpt/base.html' %}
+{% block title %}Lista de Instalações{% endblock %}
+{% block content %}
+<h1>Lista de Instalações</h1>
+
+
+<div class="container">         
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Sigla</th>
+          <th>Regional</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+      <!-- jinja2 Technique -->
+      {% if instalacoes_list %}  
+        {% for i in instalacoes_list %}
+            <tr>
+            <td><a href="{% url 'gpt:instalacao_detail' i.id %}">{{i.nome}}</a></td>
+            <td>{{i.sigla}}</td>
+            <td>{{i.get_regional}}</td>
+            <td><a href="{% url 'gpt:instalacoes_update' i.id %}">Editar</a> | <a href="{% url 'gpt:instalacoes_delete' i.id %}">Excluir</a></td> 
+            </tr>
+        {% endfor %}
+
+      {% else %}
+        <p>Não há instalações cadastradas.</p>
+      {% endif %}
+      </tbody>
+    </table>
+  </div>
+
+{% include "gpt/pagination.html" with page=page_obj %}
+
+{% endblock %}
+
+{% block submenu %}
+<li><a href="{% url 'gpt:instalacoes_create' %}">Adicionar instalação</a></li>
+{% endblock %}
