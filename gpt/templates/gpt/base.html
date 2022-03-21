@@ -3,60 +3,49 @@
 <html>
 <head>
   <title>{% block title %}{% endblock %}</title>
-  <link href="{% static 'gpt/gpt.css' %}" rel="stylesheet"> 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <link href="{% static "gpt/base.css" %}" rel="stylesheet">
 </head>
 <body>
-  <div id="header">
-    <span class="logo">GPT</span>
-    {% if request.user.is_authenticated %}
-      <ul class="menu">
-        <li {% if section == "dashboard" %}class="selected"{% endif %}>
-          <a href="{% url "dashboard" %}">My dashboard</a>
+    <div id="header">
+        <span class="logo"><a href="{% url 'gpt:instalacoes_list' %}">GPT</a></span>
+        {% if request.user.is_authenticated %}
+          <ul class="menu">
+            <li {% if section == "dashboard" %}class="selected"{% endif %}>
+              <a href="{% url "dashboard" %}">Dashboard</a>
+            </li>
+            <li {% if section == "images" %}class="selected"{% endif %}>
+                <a href="{% url 'gpt:instalacoes_list' %}">Instalações</a>
+            </li>
+            <li {% if section == "people" %}class="selected"{% endif %}>
+                <a href="{% url 'gpt:documentos_list' %}">Documentos</a>
+            </li>
+          </ul>
+        {% endif %}
+        <span class="user">
+          {% if request.user.is_authenticated %}
+            Hello {{ request.user.first_name }},
+            <a href="{% url "logout" %}">Logout</a>
+          {% else %}
+            <a href="{% url "login" %}">Log-in</a>
+          {% endif %}
+        </span>
+    </div>
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li class="{{ message.tags }}">
+          {{ message|safe }}
+          <a href="#" class="close">x</a>
         </li>
-        <li {% if section == "images" %}class="selected"{% endif %}>
-          <a href="#">Images</a>
-        </li>
-        <li {% if section == "people" %}class="selected"{% endif %}>
-          <a href="#">People</a>
-        </li>
-      </ul>
+      {% endfor %}
+    </ul>
     {% endif %}
-    <span class="user">
-      {% if request.user.is_authenticated %}
-        Hello {{ request.user.first_name }},
-        <a href="{% url "logout" %}">Logout</a>
-      {% else %}
-        <a href="{% url "login" %}">Log-in</a>
-      {% endif %}
-    </span>
-  </div>
-  
-  
-  
+    
   <div id="content">
     {% block content %}
     {% endblock %}
-  </div>
-  <div id="sidebar">
-    <h2>GPT</h2>
-    <p>Gestão de Processos da Transmissão</p>
-    <ul>
-       <li><a href="{% url 'gpt:instalacoes_list' %}">Instalações</a> </li>
-       <li><a href="{% url 'gpt:documentos_list' %}">Documentos</a></li>
-       
-       {% block submenu %}
-       {% endblock %}
-
-
-    </ul>
-    
   </div>
 </body>
 </html>

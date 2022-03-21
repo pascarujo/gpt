@@ -2,11 +2,12 @@
 {% block title %}Log-in{% endblock %}
 {% block content %}
   <h1>Log-in</h1>
-  <p>Please, use the following form to log-in:</p>
+  <p>Por favor, use o formulário abaixo para entrar:</p>
   <form method="post">
     {{ form.as_p }}
     {% csrf_token %}
     <p><input type="submit" value="Log in"></p>
   </form>
+  Não tem uma conta? <a href="{% url 'register' %}">Registre-se aqui.</a>
 {% endblock %}
 
