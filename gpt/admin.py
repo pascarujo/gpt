@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Instalacao, Origem, Documento
+from .models import Instalacao, Organizacao, Origem, Documento
 
 class OrigemAdmin(admin.ModelAdmin):
     list_display = ('sigla', 'nome','atualizado_em','criado_em')
@@ -32,7 +32,15 @@ class DocumentoAdmin(admin.ModelAdmin):
         obj.user = request.user
         obj.save()
 
+class OrganizacaoAdmin(admin.ModelAdmin):
+    list_display = ('origem','nome','area','atualizado_em','criado_em')
+    search_fields = ['nome','area']
+    list_filter = ['nome']
+
+
+
 # Register your models here.
 admin.site.register(Instalacao, InstalacaoAdmin)
 admin.site.register(Origem, OrigemAdmin)
 admin.site.register(Documento, DocumentoAdmin)
+admin.site.register(Organizacao, OrganizacaoAdmin)

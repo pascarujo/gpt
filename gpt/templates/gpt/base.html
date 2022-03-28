@@ -4,7 +4,7 @@
 <head>
   <title>{% block title %}{% endblock %}</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  
   <link href="{% static "gpt/base.css" %}" rel="stylesheet">
 </head>
 <body>
@@ -25,10 +25,10 @@
         {% endif %}
         <span class="user">
           {% if request.user.is_authenticated %}
-            Hello {{ request.user.first_name }},
-            <a href="{% url "logout" %}">Logout</a>
+            Olá {{ request.user.first_name }},
+            <a href="{% url "logout" %}">Sair</a>
           {% else %}
-            <a href="{% url "login" %}">Log-in</a>
+            <a href="{% url "login" %}">Entrar</a>
           {% endif %}
         </span>
     </div>
@@ -47,5 +47,7 @@
     {% block content %}
     {% endblock %}
   </div>
+  {% block footer %}
+  {% endblock %}
 </body>
 </html>

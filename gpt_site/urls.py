@@ -22,7 +22,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('gpt/', include('gpt.urls')),
     path('admin/', admin.site.urls),
-    path('account/', include('account.urls'))
+    path('account/', include('account.urls')),
+    # path("select2/", include("django_select2.urls")),
 ]
 
 if settings.DEBUG:

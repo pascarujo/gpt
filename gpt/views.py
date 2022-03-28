@@ -9,6 +9,7 @@ from django.urls import reverse_lazy
 from dal import autocomplete
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from .forms import DocumentoForm
 
 
 # from .forms import DocumentoForm
@@ -132,4 +133,34 @@ class DocumentoUpdateView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["tipo"] = 'update'
+        return context
+    
+
+class DocumentoAutocomplete(autocomplete.Select2QuerySetView):
+     def get_queryset(self):
+        # Don't forget to filter out results depending on the visitor !
+        if not self.request.user.is_authenticated:
+            return Documento.objects.none()
+
+        qs = Documento.objects.all()
+
+        if self.q:
+            qs = qs.filter(titulo__istartswith=self.q)
+
+        return qs
+
+
+class DocumentoTeste(CreateView):
+    model = Documento
+    form_class = DocumentoForm
+    template_name = 'gpt/teste.html'
+    # fields = ['origem','tipo','codigo','titulo','data_doc','instalacoes','referencias','arquivo']
+    success_url = reverse_lazy('gpt:documentos_list')
+    def form_valid(self, form):
+        form.instance.criado_por = self.request.user
+        return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["tipo"] = 'create'
         return context

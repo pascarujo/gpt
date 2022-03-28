@@ -3,6 +3,8 @@ from django.urls import reverse
 from django.db import models
 from django.contrib.auth.models import User
 import os
+from dal import autocomplete
+
 # Create your models here.
 
 def choiceToString(choice, choiceList):
@@ -112,7 +114,7 @@ class Documento(models.Model):
         (OUTRO, 'Outro')
     ]
 
-    origem = models.ForeignKey(Origem, on_delete=models.SET_NULL, related_name='documentos', blank=True, null=True)
+    origem = models.ForeignKey('Organizacao', on_delete=models.SET_NULL, related_name='documentos', blank=True, null=True)
     tipo = models.CharField(max_length=2, choices=TIPO_DOC_CHOICES)
     codigo = models.CharField(max_length=50, verbose_name='código')
     titulo = models.CharField(max_length=200, verbose_name='título')
@@ -148,6 +150,33 @@ class Documento(models.Model):
 
 
 
+class Organizacao(models.Model):
+    nome = models.CharField(max_length=200)
+    area = models.CharField(max_length=200, null=True, blank=True, verbose_name='área')
+    criado_em = models.DateTimeField(auto_now_add=True)
+    atualizado_em = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        unique_together = ('nome', 'area')
+        ordering = ('nome',)
+
+    @property
+    def origem(self):
+        if self.area:
+            return self.nome + '/' + self.area
+        else:
+            return self.nome
+    
+    
+    def __str__(self):
+        return self.origem
+
+
+class Disciplina(models.Model):
+    nome = models.CharField(max_length=200)
+    codigo = models.CharField(max_length=50, verbose_name='código', unique=True)
+    
+    def __str__(self):
+        return f'{self.codigo} - {self.nome}'
 
 

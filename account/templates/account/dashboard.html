@@ -1,6 +1,7 @@
 {% extends "gpt/base.html" %}
 {% block title %}Dashboard{% endblock %}
 {% block content %}
-  <h1>Dashboard</h1>
-  <p>Welcome to your dashboard.</p>
+  <h1>Painel</h1>
+  <p>Bem-vindo ao seu painel. Você pode <a href="{% url "edit" %}">editar seu perfil</a> ou <a href="{% url "password_change" %}">alterar sua senha</a>.</p>
+ 
 {% endblock %}

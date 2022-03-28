@@ -6,18 +6,17 @@ import djhacker
 from django import forms
 
 djhacker.formfield(
-    Documento.instalacoes,
-    forms.ModelChoiceField,
-    widget= autocomplete.ModelSelect2Multiple(url='gpt:instalacao_autocomplete')
+    Documento.referencias,
+    forms.ModelMultipleChoiceField,
+    widget= autocomplete.ModelSelect2Multiple(url='gpt:doc-autocomplete')
 )
 
-'''
+
 class DocumentoForm(ModelForm):
     class Meta:
         model = Documento
         fields = ['origem','tipo','codigo','titulo','data_doc','instalacoes','referencias','arquivo']
         widgets = {
-            'instalacoes': autocomplete.ModelSelect2Multiple(url='gpt:instalacao_autocomplete')
+            'referencias': autocomplete.ModelSelect2Multiple(url='gpt:doc-autocomplete')
         }
 
-'''
